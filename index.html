@@ -14,20 +14,18 @@
 	<h1>Binary Code Wheels</h1>
 	<p>
 		<input id="gray" type="radio" name="type" oninput="drawWheel()" checked /><label for="gray">Gray Code</label>
-		<input type="radio" name="type" oninput="drawWheel()" /><label for=" normal">Normal Binary</label>
+		<input id="normal" type="radio" name="type" oninput="drawWheel()" /><label for="normal">Normal Binary</label>
 		<input type="checkbox" id="reverse" oninput="drawWheel()" /><label for="reverse">Reverse</label>
 	</p>
 	<p>
 		Bits
-		<input id="bits" type="range" min="1" max="20" value="4"
+		<input id="bits" type="range" min="1" max="12" value="4"
 			oninput="this.nextElementSibling.value=this.value; drawWheel()" />
-		<input type="number" min="1" max="20" value="4"
+		<input type="number" min="1" max="12" value="4"
 			oninput="this.previousElementSibling.value=this.value; drawWheel()" />
 	</p>
 
-	<svg id="svg" viewBox="-100 -100 200 200">
-		<path id="path1" fill="red"></path>
-		<path id="path2" fill="red"></path>
+	<svg id="svg" viewBox="-105 -105 210 210">
 	</svg>
 </body>
 

@@ -7,7 +7,7 @@ function polarToCartesian(radius, degrees, xOffset = 0, yOffset = 0) {
 }
 
 // Still funky with negative angles but I'm not worrying about that.
-function describeArc(centerX, centerY, radius1, radius2, angleStart = 0, angleEnd = 360) {
+function describeArc(radius1, radius2, angleStart = 0, angleEnd = 360, centerX = 0, centerY = 0) {
 	const is360 = Math.abs(angleStart - angleEnd) >= 360;
 	if (is360) {
 		angleStart = 0;
@@ -53,6 +53,14 @@ function describeArc(centerX, centerY, radius1, radius2, angleStart = 0, angleEn
 	].join(" ");
 }
 
+function addArc(svg, radius1, radius2, angleStart = 0, angleEnd = 360, centerX = 0, centerY = 0) {
+	const arc = describeArc(radius1, radius2, angleStart, angleEnd, centerX, centerY);
+	const path = document.createElementNS("http://www.w3.org/2000/svg", "path"); // whoa, a namespace
+	path.setAttribute("fill", "black");
+	path.setAttribute("d", arc);
+	svg.appendChild(path);
+}
+
 function normalBinary(bits) {
 	const binStrings = [];
 	for (let i = 0; i < Math.pow(2, bits); i++) {
@@ -70,7 +78,7 @@ function grayCode(bits) {
 	return binStrings;
 }
 
-function drawWheel() {
+function getBitsAndBinStrings() {
 	const bits = document.getElementById("bits").value;
 	const gray = document.getElementById("gray").checked;
 	const reverse = document.getElementById("reverse").checked;
@@ -80,12 +88,33 @@ function drawWheel() {
 		binStrings.forEach((s, i, a) => (a[i] = [...s].reverse().join("")));
 	}
 
-	console.log(binStrings);
+	return { bits, binStrings };
+}
+
+function getAndClearSvg() {
+	const svg = document.getElementById("svg");
+	svg.innerHTML = "";
+	return svg;
+}
+
+function drawWheel(innerRadius = 10, outerRadius = 100, angleOffset = -90) {
+	const svg = getAndClearSvg();
+	const { bits, binStrings } = getBitsAndBinStrings();
+	const arcAngle = 360 / binStrings.length;
+	const arcWidth = (outerRadius - innerRadius) / bits;
+
+	for (let i = 0; i < binStrings.length; i++) {
+		let angleStart = i * arcAngle + angleOffset;
+		let angleEnd = angleStart + arcAngle;
+
+		for (let j = 0; j < bits; j++) {
+			let radius1 = innerRadius + j * arcWidth;
+			let radius2 = radius1 + arcWidth;
+			if (binStrings[i].charAt(j) === "1") {
+				addArc(svg, radius1, radius2, angleStart, angleEnd);
+			}
+		}
+	}
 }
 
 drawWheel();
-
-var path1 = describeArc(0, 0, 30, 50, 0, 180);
-document.getElementById("path1").setAttribute("d", path1);
-var path2 = describeArc(0, 0, 0, 30, 0, 90);
-document.getElementById("path2").setAttribute("d", path2);
