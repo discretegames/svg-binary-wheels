@@ -62,18 +62,25 @@ function normalBinary(bits) {
 }
 
 function grayCode(bits) {
-	const grayStrings = ["0", "1"];
+	const binStrings = ["0", "1"];
 	for (let b = 1; b < bits; b++) {
-		grayStrings.push(...[...grayStrings].reverse());
-		grayStrings.forEach((s, i, a) => (a[i] = (i < a.length / 2 ? "0" : "1") + s));
+		binStrings.push(...[...binStrings].reverse());
+		binStrings.forEach((s, i, a) => (a[i] = (2 * i < a.length ? "0" : "1") + s));
 	}
-	return grayStrings;
+	return binStrings;
 }
 
 function drawWheel() {
 	const bits = document.getElementById("bits").value;
-	console.log(bits);
-	console.log(grayCode(bits));
+	const gray = document.getElementById("gray").checked;
+	const reverse = document.getElementById("reverse").checked;
+
+	const binStrings = (gray ? grayCode : normalBinary)(bits);
+	if (reverse) {
+		binStrings.forEach((s, i, a) => (a[i] = [...s].reverse().join("")));
+	}
+
+	console.log(binStrings);
 }
 
 drawWheel();
