@@ -1,0 +1,18 @@
+:root {
+	--bg-color: hsl(0, 0%, 80%);
+	--svg-size: 500px;
+}
+
+body {
+	text-align: center;
+	background: var(--bg-color);
+	font-family: var(--font), monospace;
+	color: red;
+}
+
+
+svg {
+	border: 1px gray solid;
+	width: var(--svg-size);
+	height: var(--svg-size);
+}
