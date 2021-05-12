@@ -6,7 +6,8 @@ function polarToCartesian(radius, degrees, xOffset = 0, yOffset = 0) {
 	};
 }
 
-function arc(centerX, centerY, radius1, radius2, angleStart = 0, angleEnd = 360) {
+// Still funky with negative angles but I'm not worrying about that.
+function describeArc(centerX, centerY, radius1, radius2, angleStart = 0, angleEnd = 360) {
 	const is360 = Math.abs(angleStart - angleEnd) >= 360;
 	if (is360) {
 		angleStart = 0;
@@ -52,7 +53,11 @@ function arc(centerX, centerY, radius1, radius2, angleStart = 0, angleEnd = 360)
 	].join(" ");
 }
 
-var path1 = arc(0, 0, 30, 50, 0, 180);
+function drawWheel() {
+	console.log("🎡");
+}
+
+var path1 = describeArc(0, 0, 30, 50, 0, 180);
 document.getElementById("path1").setAttribute("d", path1);
-var path2 = arc(0, 0, 0, 30, 0, 90);
+var path2 = describeArc(0, 0, 0, 30, 0, 90);
 document.getElementById("path2").setAttribute("d", path2);

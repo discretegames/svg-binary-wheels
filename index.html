@@ -2,20 +2,33 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="styles.css">
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="styles.css" />
 	<script defer src="script.js"></script>
-	<title>SVG Gray Code Wheel</title>
+	<title>Binary Code Wheels</title>
 </head>
 
 <body>
-	<svg viewBox="-100 -100 200 200">
+	<h1>Binary Code Wheels</h1>
+	<p>
+		<input type="radio" name="type" id="gray" oninput="drawWheel()" checked /><label for="gray">Gray Code</label>
+		<input type="radio" name="type" id="normal" oninput="drawWheel()" /><label for=" normal">Normal Binary</label>
+		<input type="checkbox" id="reverse" oninput="drawWheel()" /><label for="reverse">Reverse</label>
+	</p>
+	<p>
+		Bits
+		<input type="range" min="1" max="20" value="4"
+			oninput="this.nextElementSibling.value=this.value; drawWheel()" />
+		<input type="number" min="1" max="20" value="4"
+			oninput="this.previousElementSibling.value=this.value; drawWheel()" />
+	</p>
+
+	<svg id="svg" viewBox="-100 -100 200 200">
 		<path id="path1" fill="red"></path>
 		<path id="path2" fill="red"></path>
 	</svg>
-
 </body>
 
 </html>

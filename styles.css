@@ -1,18 +1,32 @@
-:root {
-	--bg-color: hsl(0, 0%, 80%);
-	--svg-size: 500px;
-}
-
 body {
 	text-align: center;
-	background: var(--bg-color);
-	font-family: var(--font), monospace;
-	color: red;
+	font-family: "Consolas", monospace;
+	background: hsl(0, 0%, 80%);
+	color: black;
+	font-size: 18px;
 }
 
+h1 {
+	font-size: 32px;
+	margin: 16px;
+}
+
+input[type="range"] {
+	width: 400px;
+	vertical-align: middle;
+}
+
+input[type="number"] {
+	width: 50px;
+	font-size: 18px;
+}
 
 svg {
-	border: 1px gray solid;
-	width: var(--svg-size);
-	height: var(--svg-size);
+	width: 720px;
+	height: 720px;
+	border: 1px black solid;
+}
+
+#path1:hover {
+	stroke: blue;
 }
