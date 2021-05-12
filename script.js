@@ -53,9 +53,30 @@ function describeArc(centerX, centerY, radius1, radius2, angleStart = 0, angleEn
 	].join(" ");
 }
 
-function drawWheel() {
-	console.log("🎡");
+function normalBinary(bits) {
+	const binStrings = [];
+	for (let i = 0; i < Math.pow(2, bits); i++) {
+		binStrings.push(i.toString(2).padStart(bits, "0"));
+	}
+	return binStrings;
 }
+
+function grayCode(bits) {
+	const grayStrings = ["0", "1"];
+	for (let b = 1; b < bits; b++) {
+		grayStrings.push(...[...grayStrings].reverse());
+		grayStrings.forEach((s, i, a) => (a[i] = (i < a.length / 2 ? "0" : "1") + s));
+	}
+	return grayStrings;
+}
+
+function drawWheel() {
+	const bits = document.getElementById("bits").value;
+	console.log(bits);
+	console.log(grayCode(bits));
+}
+
+drawWheel();
 
 var path1 = describeArc(0, 0, 30, 50, 0, 180);
 document.getElementById("path1").setAttribute("d", path1);
