@@ -1,5 +1,5 @@
 function polarToCartesian(radius, degrees, xOffset = 0, yOffset = 0) {
-	var radians = (degrees * Math.PI) / 180;
+	const radians = (degrees * Math.PI) / 180;
 	return {
 		x: radius * Math.cos(radians) + xOffset,
 		y: radius * Math.sin(radians) + yOffset,
@@ -53,12 +53,12 @@ function describeArc(radius1, radius2, angleStart = 0, angleEnd = 360, centerX =
 	].join(" ");
 }
 
-function addArc(svg, radius1, radius2, angleStart = 0, angleEnd = 360, centerX = 0, centerY = 0) {
+function makeArcPath(radius1, radius2, angleStart = 0, angleEnd = 360, centerX = 0, centerY = 0) {
 	const arc = describeArc(radius1, radius2, angleStart, angleEnd, centerX, centerY);
 	const path = document.createElementNS("http://www.w3.org/2000/svg", "path"); // whoa, a namespace
 	path.setAttribute("fill", "black");
 	path.setAttribute("d", arc);
-	svg.appendChild(path);
+	return path;
 }
 
 function normalBinary(bits) {
@@ -97,24 +97,53 @@ function getAndClearSvg() {
 	return svg;
 }
 
-function drawWheel(innerRadius = 10, outerRadius = 100, angleOffset = -90) {
+function setNumberEvent(text) {
+	const number = document.getElementById("number");
+	return function () {
+		number.innerText = text;
+	};
+}
+
+const clearNumber = setNumberEvent("[hover to see binary code]");
+
+function makeCenter(innerRadius) {
+	const center = makeArcPath(0, innerRadius);
+	center.classList.add("bin-string");
+	center.onmouseenter = setNumberEvent("You found the center!");
+	center.onmouseleave = clearNumber;
+	return center;
+}
+
+function drawWheel(innerRadius = 25, outerRadius = 350, angleOffset = -90) {
 	const svg = getAndClearSvg();
 	const { bits, binStrings } = getBitsAndBinStrings();
 	const arcAngle = 360 / binStrings.length;
 	const arcWidth = (outerRadius - innerRadius) / bits;
 
 	for (let i = 0; i < binStrings.length; i++) {
-		let angleStart = i * arcAngle + angleOffset;
-		let angleEnd = angleStart + arcAngle;
+		const angleStart = i * arcAngle + angleOffset;
+		const angleEnd = angleStart + arcAngle;
 
 		for (let j = 0; j < bits; j++) {
-			let radius1 = innerRadius + j * arcWidth;
-			let radius2 = radius1 + arcWidth;
+			const radius1 = innerRadius + j * arcWidth;
+			const radius2 = radius1 + arcWidth;
 			if (binStrings[i].charAt(j) === "1") {
-				addArc(svg, radius1, radius2, angleStart, angleEnd);
+				svg.appendChild(makeArcPath(radius1, radius2, angleStart, angleEnd));
 			}
 		}
 	}
+
+	for (let i = 0; i < binStrings.length; i++) {
+		const angleStart = i * arcAngle + angleOffset;
+		const angleEnd = angleStart + arcAngle;
+		const path = makeArcPath(innerRadius, outerRadius, angleStart, angleEnd);
+		path.classList.add("bin-string");
+		path.onmouseenter = setNumberEvent([...binStrings[i]].join(" "));
+		path.onmouseleave = clearNumber;
+		svg.appendChild(path);
+	}
+
+	svg.appendChild(makeCenter(innerRadius));
 }
 
 drawWheel();

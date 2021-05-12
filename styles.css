@@ -11,6 +11,10 @@ h1 {
 	margin: 16px;
 }
 
+#number {
+	font-size: 20px;
+}
+
 input[type="range"] {
 	width: 400px;
 	vertical-align: middle;
@@ -22,11 +26,16 @@ input[type="number"] {
 }
 
 svg {
+	margin: auto;
 	width: 720px;
 	height: 720px;
-	border: 1px black solid;
 }
 
-#path1:hover {
-	stroke: blue;
+.bin-string {
+	fill-opacity: 0%;
+}
+
+.bin-string:hover {
+	stroke: red;
+	stroke-width: 2px;
 }
